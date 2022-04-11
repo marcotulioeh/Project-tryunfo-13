@@ -46,6 +46,7 @@ class Form extends React.Component {
             value={ cardName }
             onChange={ onInputChange }
             data-testid="name-input"
+            id="cardName"
           />
         </label>
 
@@ -69,7 +70,7 @@ class Form extends React.Component {
           Attr01:
           <input
             type="number"
-            name="cardName"
+            name="cardAttr1"
             value={ cardAttr1 }
             onChange={ onInputChange }
             data-testid="attr1-input"
@@ -114,7 +115,7 @@ class Form extends React.Component {
           Imagem:
           <input
             type="text"
-            name="cardAttr3"
+            name="cardImage"
             value={ cardImage }
             onChange={ onInputChange }
             data-testid="image-input"
@@ -135,7 +136,7 @@ class Form extends React.Component {
             id="cardRare"
           >
             <option value="normal">Normal</option>
-            <option value="raro">Raro</option>
+            <option value="raro" checked>Raro</option>
             <option value="muito raro">Muito Raro</option>
           </select>
         </label>
@@ -149,7 +150,6 @@ class Form extends React.Component {
             type="checkbox"
             name="cardTrunfo"
             checked={ cardTrunfo }
-            // value={ cardTrunfo }
             onChange={ onInputChange }
             data-testid="trunfo-input"
             id="cardTrunfo"
