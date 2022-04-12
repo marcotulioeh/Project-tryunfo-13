@@ -19,33 +19,45 @@ class App extends React.Component {
     };
   }
 
-  saveForm = () => {
+  saveForm1 = () => {
+    let resul = true;
     const {
       cardName,
       cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
       cardImage,
       cardRare,
     } = this.state;
-    const maxSum = 210;
-    const maxInput = 90;
     if (cardName.length > 0
       && cardDescription.length > 0
       && cardImage.length > 0
       && cardRare.length > 0
-      && +cardAttr1 + +cardAttr2 + +cardAttr3 <= maxSum
-      && +cardAttr1 <= maxInput
-      && +cardAttr2 <= maxInput
-      && +cardAttr3 <= maxInput
-      && +cardAttr1 >= 0
-      && +cardAttr2 >= 0
-      && +cardAttr3 >= 0
     ) {
-      return false;
+      resul = false;
     }
-    return true;
+    return resul;
+  }
+
+  saveForm2 = () => {
+    let resul = true;
+    let {
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+    cardAttr1 = parseInt(cardAttr1, 10);
+    cardAttr2 = parseInt(cardAttr2, 10);
+    cardAttr3 = parseInt(cardAttr3, 10);
+    const maxSum = 210;
+    const maxInput = 90;
+    if (
+      cardAttr1 >= 0 && cardAttr1 <= maxInput
+      && cardAttr2 >= 0 && cardAttr2 <= maxInput
+      && cardAttr3 >= 0 && cardAttr3 <= maxInput
+      && cardAttr1 + cardAttr2 + cardAttr3 <= maxSum
+    ) {
+      resul = false;
+    }
+    return resul;
   }
 
   onInputChange = ({ target }) => {
@@ -64,13 +76,12 @@ class App extends React.Component {
     this.setState({
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
-      // isSaveButtonDisabled: true,
       saveDeck,
     });
   }
@@ -88,6 +99,7 @@ class App extends React.Component {
       // isSaveButtonDisabled,
       // saveDeck,
     } = this.state;
+    const saveForm = this.saveForm1() || this.saveForm2();
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -100,8 +112,8 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          isSaveButtonDisabled={ this.saveForm() }
-          // onSaveButtonClick={ this.onSaveButtonClick }
+          isSaveButtonDisabled={ saveForm }
+          onSaveButtonClick={ this.onSaveButtonClick }
           onInputChange={ this.onInputChange }
         />
         <Card
