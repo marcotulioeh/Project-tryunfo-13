@@ -15,7 +15,37 @@ class App extends React.Component {
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
+      saveDeck: [],
     };
+  }
+
+  saveForm = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+    } = this.state;
+    const maxSum = 210;
+    const maxInput = 90;
+    if (cardName.length > 0
+      && cardDescription.length > 0
+      && cardImage.length > 0
+      && cardRare.length > 0
+      && +cardAttr1 + +cardAttr2 + +cardAttr3 <= maxSum
+      && +cardAttr1 <= maxInput
+      && +cardAttr2 <= maxInput
+      && +cardAttr3 <= maxInput
+      && +cardAttr1 >= 0
+      && +cardAttr2 >= 0
+      && +cardAttr3 >= 0
+    ) {
+      return false;
+    }
+    return true;
   }
 
   onInputChange = ({ target }) => {
@@ -27,6 +57,22 @@ class App extends React.Component {
   }
 
   onSaveButtonClick = () => {
+    const { saveDeck } = this.state;
+    const newCards = this.state;
+    delete newCards.saveDeck;
+    saveDeck.push(newCards);
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '',
+      cardAttr2: '',
+      cardAttr3: '',
+      cardImage: '',
+      cardRare: '',
+      cardTrunfo: false,
+      // isSaveButtonDisabled: true,
+      saveDeck,
+    });
   }
 
   render() {
@@ -39,6 +85,8 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      // isSaveButtonDisabled,
+      // saveDeck,
     } = this.state;
     return (
       <div>
@@ -52,7 +100,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          // isSaveButtonDisabled={ isSaveButtonDisabled }
+          isSaveButtonDisabled={ this.saveForm() }
           // onSaveButtonClick={ this.onSaveButtonClick }
           onInputChange={ this.onInputChange }
         />
