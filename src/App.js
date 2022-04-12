@@ -96,10 +96,10 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      // isSaveButtonDisabled,
-      // saveDeck,
+      saveDeck,
     } = this.state;
     const saveForm = this.saveForm1() || this.saveForm2();
+    const hasTrunfo = saveDeck.some((deck) => deck.cardTrunfo === true);
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -115,6 +115,7 @@ class App extends React.Component {
           isSaveButtonDisabled={ saveForm }
           onSaveButtonClick={ this.onSaveButtonClick }
           onInputChange={ this.onInputChange }
+          hasTrunfo={ hasTrunfo }
         />
         <Card
           cardName={ cardName }
