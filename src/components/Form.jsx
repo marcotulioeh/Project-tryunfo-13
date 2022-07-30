@@ -155,7 +155,6 @@ class Form extends React.Component {
               name="cardTrunfo"
               checked={ cardTrunfo }
               onChange={ onInputChange }
-              data-testid="trunfo-input"
             />}
 
         { hasTrunfo

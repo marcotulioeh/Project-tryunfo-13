@@ -82,7 +82,6 @@ class App extends React.Component {
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
-      saveDeck,
     });
   }
 
