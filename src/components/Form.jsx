@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Checbox from './Checkbox';
 // import MyInput from './MyInput';
 // import MyTextarea from './MyTextarea';
 
@@ -150,9 +151,7 @@ class Form extends React.Component {
         <br />
 
         { !hasTrunfo
-            && <input
-              type="checkbox"
-              name="cardTrunfo"
+            && <Checbox
               checked={ cardTrunfo }
               onChange={ onInputChange }
             />}

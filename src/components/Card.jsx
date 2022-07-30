@@ -12,6 +12,8 @@ class Card extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      showcase,
+      deletDeck,
     } = this.props;
     return (
       <section>
@@ -24,6 +26,16 @@ class Card extends React.Component {
         <h4 data-testid="rare-card">{ cardRare }</h4>
         <div>
           { cardTrunfo === true ? <p data-testid="trunfo-card">Super Trunfo</p> : null }
+          { showcase
+            && (
+              <button
+                type="button"
+                data-testid="delete-button"
+                value={ cardName }
+                onClick={ deletDeck }
+              >
+                Excluir
+              </button>)}
         </div>
       </section>
     );
@@ -39,6 +51,8 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
+  showcase: PropTypes.bool.isRequired,
+  deletDeck: PropTypes.func.isRequired,
 };
 
 export default Card;

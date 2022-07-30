@@ -9,9 +9,9 @@ class App extends React.Component {
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
@@ -69,20 +69,46 @@ class App extends React.Component {
   }
 
   onSaveButtonClick = () => {
-    const { saveDeck } = this.state;
-    const newCards = this.state;
-    delete newCards.saveDeck;
-    saveDeck.push(newCards);
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    } = this.state;
+    this.setState((prevState) => ({
+      saveDeck: [...prevState.saveDeck, {
+        cardName,
+        cardDescription,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3,
+        cardImage,
+        cardRare,
+        cardTrunfo,
+      }],
+    }));
+
     this.setState({
       cardName: '',
       cardDescription: '',
-      cardAttr1: '0',
-      cardAttr2: '0',
-      cardAttr3: '0',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
     });
+  }
+
+  deletDeck = ({ target }) => {
+    console.log(target.value);
+    this.setState((prevState) => ({
+      saveDeck: prevState.saveDeck.filter((deck) => deck.cardName !== target.value),
+    }));
   }
 
   render() {
@@ -126,20 +152,25 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           saveDeck={ saveDeck }
+          // deletDeck={ this.deletDeck }
+          showcase={ false }
         />
-        { saveDeck.map((deck) => (
-          <Card
-            key={ deck.cardName }
-            cardName={ deck.cardName }
-            cardDescription={ deck.cardDescription }
-            cardAttr1={ deck.cardAttr1 }
-            cardAttr2={ deck.cardAttr2 }
-            cardAttr3={ deck.cardAttr3 }
-            cardImage={ deck.cardImage }
-            cardRare={ deck.cardRare }
-            cardTrunfo={ deck.cardTrunfo }
-            deleteCard={ this.deleteCard }
-          />))}
+        { saveDeck.length > 0
+          && saveDeck.map((deck) => (
+            <Card
+              key={ deck.cardName }
+              cardName={ deck.cardName }
+              cardDescription={ deck.cardDescription }
+              cardAttr1={ deck.cardAttr1 }
+              cardAttr2={ deck.cardAttr2 }
+              cardAttr3={ deck.cardAttr3 }
+              cardImage={ deck.cardImage }
+              cardRare={ deck.cardRare }
+              cardTrunfo={ deck.cardTrunfo }
+              deleteCard={ this.deleteCard }
+              deletDeck={ this.deletDeck }
+              showcase
+            />))}
       </div>
     );
   }
