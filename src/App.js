@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   constructor() {
@@ -16,6 +17,9 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: false,
       saveDeck: [],
+      search: '',
+      searchRare: '',
+      checkedFilter: '',
     };
   }
 
@@ -110,6 +114,18 @@ class App extends React.Component {
     }));
   }
 
+  searchChange = ({ target }) => {
+    this.setState({ search: target.value });
+  }
+
+  searchChange2 = ({ target }) => {
+    this.setState({ searchRare: target.value });
+  }
+
+  searchChange3 = ({ target }) => {
+    this.setState({ checkedFilter: target.value });
+  }
+
   render() {
     const {
       cardName,
@@ -121,9 +137,20 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       saveDeck,
+      search,
+      searchRare,
+      checkedFilter,
     } = this.state;
     const saveForm = this.saveForm1() || this.saveForm2();
     const hasTrunfo = saveDeck.some((deck) => deck.cardTrunfo === true);
+    const lowerSearch = search.toLowerCase();
+    const searchDeck = saveDeck
+      .filter((deck) => deck.cardName.toLowerCase().includes(lowerSearch));
+    const selectDeck = searchDeck
+      .filter((deck) => deck.cardRare.startsWith(searchRare));
+    // const checkedDeck = selectDeck
+    //   .filter((deck) => deck.cardTrunfo === checkedFilter);
+    // console.log(checkedDeck);
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -153,8 +180,18 @@ class App extends React.Component {
           saveDeck={ saveDeck }
           showcase={ false }
         />
-        { saveDeck.length > 0
-          && saveDeck.map((deck) => (
+
+        <Filter
+          value={ search }
+          onChange={ this.searchChange }
+          value2={ searchRare }
+          onChange2={ this.searchChange2 }
+          checked={ checkedFilter }
+          onChange3={ this.onInputChange }
+        />
+
+        { selectDeck.length > 0
+          && selectDeck.map((deck) => (
             <Card
               key={ deck.cardName }
               cardName={ deck.cardName }
