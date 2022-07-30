@@ -105,7 +105,6 @@ class App extends React.Component {
   }
 
   deletDeck = ({ target }) => {
-    console.log(target.value);
     this.setState((prevState) => ({
       saveDeck: prevState.saveDeck.filter((deck) => deck.cardName !== target.value),
     }));
@@ -152,7 +151,6 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           saveDeck={ saveDeck }
-          // deletDeck={ this.deletDeck }
           showcase={ false }
         />
         { saveDeck.length > 0
