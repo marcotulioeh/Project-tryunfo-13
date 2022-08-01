@@ -126,6 +126,31 @@ class App extends React.Component {
     this.setState({ checkedFilter: target.value });
   }
 
+  filterSearch = (stateSearch) => stateSearch.map((deck) => (
+    <Card
+      key={ deck.cardName }
+      cardName={ deck.cardName }
+      cardDescription={ deck.cardDescription }
+      cardAttr1={ deck.cardAttr1 }
+      cardAttr2={ deck.cardAttr2 }
+      cardAttr3={ deck.cardAttr3 }
+      cardImage={ deck.cardImage }
+      cardRare={ deck.cardRare }
+      cardTrunfo={ deck.cardTrunfo }
+      deleteCard={ this.deleteCard }
+      deletDeck={ this.deletDeck }
+      showcase
+    />));
+
+  filterChecked = (stateSelect, stateChecked) => {
+    if (stateSelect.length > 0) {
+      return filterSearch(stateSelect);
+    }
+    if (stateChecked === true) {
+      return filterSearch(stateChecked);
+    }
+  }
+
   render() {
     const {
       cardName,
@@ -141,16 +166,23 @@ class App extends React.Component {
       searchRare,
       checkedFilter,
     } = this.state;
+
     const saveForm = this.saveForm1() || this.saveForm2();
+
     const hasTrunfo = saveDeck.some((deck) => deck.cardTrunfo === true);
+
     const lowerSearch = search.toLowerCase();
+
     const searchDeck = saveDeck
       .filter((deck) => deck.cardName.toLowerCase().includes(lowerSearch));
+
     const selectDeck = searchDeck
       .filter((deck) => deck.cardRare.startsWith(searchRare));
-    // const checkedDeck = selectDeck
-    //   .filter((deck) => deck.cardTrunfo === checkedFilter);
-    // console.log(checkedDeck);
+
+    const checkedDeck = saveDeck
+      .filter((deck) => deck.cardTrunfo === checkedFilter);
+    console.log(checkedDeck);
+
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -190,22 +222,8 @@ class App extends React.Component {
           onChange3={ this.onInputChange }
         />
 
-        { selectDeck.length > 0
-          && selectDeck.map((deck) => (
-            <Card
-              key={ deck.cardName }
-              cardName={ deck.cardName }
-              cardDescription={ deck.cardDescription }
-              cardAttr1={ deck.cardAttr1 }
-              cardAttr2={ deck.cardAttr2 }
-              cardAttr3={ deck.cardAttr3 }
-              cardImage={ deck.cardImage }
-              cardRare={ deck.cardRare }
-              cardTrunfo={ deck.cardTrunfo }
-              deleteCard={ this.deleteCard }
-              deletDeck={ this.deletDeck }
-              showcase
-            />))}
+        { checkedFilter === true
+          ? this.filterSearch(checkedDeck) : this.filterSearch(selectDeck) }
       </div>
     );
   }
